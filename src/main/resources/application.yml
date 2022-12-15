@@ -1,1 +1,9 @@
-
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/btt_pay
+    username: <Insert username here>
+    password: <Insert password here>
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
