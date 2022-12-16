@@ -22,12 +22,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
-                .httpBasic(withDefaults())
-                .formLogin().loginPage("/login").permitAll()
-                .and()
-                .logout().invalidateHttpSession(true)
-                .clearAuthentication(true).permitAll();
+            .authorizeHttpRequests((authz) -> authz.anyRequest().authenticated())
+            .httpBasic(withDefaults())
+            .formLogin().loginPage("/login").permitAll()
+            .and()
+            .logout().invalidateHttpSession(true)
+            .clearAuthentication(true).permitAll();
         return http.build();
     }
 
