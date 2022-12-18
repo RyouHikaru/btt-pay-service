@@ -13,29 +13,31 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
     private String firstName;
-
-    @Column(nullable = false)
     private String lastName;
-
-    @Column(nullable = false)
     private String username;
-
-    @Column(nullable = false)
     private String password;
-
-    @Column(nullable = false)
     private String email;
-
     private boolean isLoggedIn;
-
     private boolean isLocked;
-
     private int loginAttempts;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Metadata metadata;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", isLoggedIn=" + isLoggedIn +
+                ", isLocked=" + isLocked +
+                ", loginAttempts=" + loginAttempts +
+                ", metadata=" + metadata +
+                '}';
+    }
 }
