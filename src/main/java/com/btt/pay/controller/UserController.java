@@ -4,44 +4,26 @@ import com.btt.pay.domain.dto.UserDTO;
 import com.btt.pay.domain.enumeration.ErrorMessage;
 import com.btt.pay.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
-@RequiredArgsConstructor
 public class UserController {
-
-    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
 
-    @PostMapping
-    public ResponseEntity<String> createUser() {
-        log.debug("Creating User");
-
-        userService.create();
-
-        return ResponseEntity.ok()
-                .body(ErrorMessage.SUCCESSFUL.getMessage());
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> retrieveUser() {
-        log.debug("Retrieving User");
-
-        userService.retrieve();
+    public ResponseEntity<?> retrieveUserById(@PathVariable Long id) {
+        UserDTO userDTO = userService.retrieveById(id);
 
         return ResponseEntity.ok()
-                .body(new UserDTO());
+                .body(userDTO);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateUser() {
-        log.debug("Updating User");
-
+    public ResponseEntity<?> updateUser() {
         userService.update();
 
         return ResponseEntity.ok()
@@ -49,9 +31,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser() {
-        log.debug("Deleting User");
-
+    public ResponseEntity<?> deleteUser() {
         userService.delete();
 
         return ResponseEntity.ok()

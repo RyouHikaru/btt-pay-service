@@ -1,5 +1,6 @@
 package com.btt.pay.domain.dto;
 
+import com.btt.pay.payload.request.RegisterRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO implements UserDetails {
+
     private Long id;
     private String firstName;
     private String lastName;
@@ -24,6 +26,22 @@ public class UserDTO implements UserDetails {
     private boolean isLoggedIn;
     private boolean isLocked;
     private int loginAttempts;
+    private MetadataDTO metadata;
+
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
+    public UserDTO(RegisterRequest request) {
+        firstName = request.getFirstName();
+        lastName = request.getLastName();
+        username = request.getUsername();
+        password = request.getPassword();
+        email = request.getEmail();
+        isLoggedIn = false;
+        isLocked = false;
+        loginAttempts = 0;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -42,7 +60,7 @@ public class UserDTO implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return isLocked;
+        return !isLocked;
     }
 
     @Override
@@ -58,5 +76,20 @@ public class UserDTO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", isLoggedIn=" + isLoggedIn +
+                ", isLocked=" + isLocked +
+                ", loginAttempts=" + loginAttempts +
+                ", metadataDTO=" + metadata +
+                '}';
     }
 }
