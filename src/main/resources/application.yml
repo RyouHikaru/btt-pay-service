@@ -8,6 +8,13 @@ spring:
     hibernate:
       ddl-auto: update
 
+# Logging Properties
+logging:
+  level:
+    ROOT: INFO
+    com.btt.pay: DEBUG
+
+# JWT Properties
 jwt:
   secret: QmlnIFRyYWRpbmcgVHJhZGVycyBQYXkgU2VydmljZSBTZWNyZXQgS2V5
-  expiration: 24
+  expiration: 86400000
