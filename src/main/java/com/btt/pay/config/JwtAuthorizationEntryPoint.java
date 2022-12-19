@@ -1,5 +1,6 @@
 package com.btt.pay.config;
 
+import com.btt.pay.domain.enumeration.ErrorMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,10 +26,14 @@ public class JwtAuthorizationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
+        final String errMessage = authException.getMessage().contains("UserDetailsService")
+                ? ErrorMessage.INVALID_CREDENTIALS.getMessage()
+                : authException.getMessage();
+
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
+        body.put("message", errMessage);
         body.put("path", request.getServletPath());
 
         final ObjectMapper mapper = new ObjectMapper();
