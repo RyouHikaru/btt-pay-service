@@ -3,7 +3,9 @@ package com.btt.pay.service.impl;
 import com.btt.pay.domain.User;
 import com.btt.pay.domain.dto.MetadataDTO;
 import com.btt.pay.domain.dto.UserDTO;
+import com.btt.pay.domain.enumeration.ErrorMessage;
 import com.btt.pay.payload.request.RegisterRequest;
+import com.btt.pay.payload.response.MessageResponse;
 import com.btt.pay.repository.UserRepository;
 import com.btt.pay.service.MetadataService;
 import com.btt.pay.service.UserService;
@@ -27,17 +29,24 @@ public class UserServiceImpl implements UserService {
     private final MetadataService metadataService;
 
     @Override
-    public UserDTO create(RegisterRequest request) {
+    public MessageResponse create(RegisterRequest request) {
         log.debug("USER SERVICE create: {}", request);
+        MessageResponse response = new MessageResponse(ErrorMessage.INTERNAL_ERROR.getMessage());
 
-        UserDTO newUserDTO = new UserDTO(request);
+        try {
+            UserDTO newUserDTO = new UserDTO(request);
 
-        MetadataDTO newMetadataDTO = metadataService.create();
-        newUserDTO.setMetadata(newMetadataDTO);
+            MetadataDTO newMetadataDTO = metadataService.create();
+            newUserDTO.setMetadata(newMetadataDTO);
 
-        User newUserEntity = userMapper.toEntity(newUserDTO);
+            userRepository.save(userMapper.toEntity(newUserDTO));
 
-        return userMapper.toDTO(userRepository.save(newUserEntity));
+            response.setMessage(ErrorMessage.REGISTER_SUCCESSFUL.getMessage());
+        } catch (Exception e) {
+            response.setMessage(e.getMessage());
+        }
+
+        return response;
     }
 
     @Override
