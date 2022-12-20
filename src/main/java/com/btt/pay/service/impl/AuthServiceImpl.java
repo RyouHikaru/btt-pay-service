@@ -5,6 +5,7 @@ import com.btt.pay.domain.dto.UserDTO;
 import com.btt.pay.payload.request.LoginRequest;
 import com.btt.pay.payload.request.RegisterRequest;
 import com.btt.pay.payload.response.JwtResponse;
+import com.btt.pay.payload.response.MessageResponse;
 import com.btt.pay.service.AuthService;
 import com.btt.pay.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -51,14 +52,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public UserDTO registerUser(RegisterRequest request) {
+    public MessageResponse registerUser(RegisterRequest request) {
         log.debug("AUTH SERVICE registerUser: {}", request);
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
 
-        UserDTO newUserDTO = userService.create(request);
-
-        return newUserDTO;
+        return userService.create(request);
     }
 
     @Override

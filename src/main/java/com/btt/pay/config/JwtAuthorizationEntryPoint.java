@@ -27,6 +27,7 @@ public class JwtAuthorizationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
         final String errMessage = authException.getMessage().contains("UserDetailsService")
+                || authException.getMessage().contains("Bad credentials")
                 ? ErrorMessage.INVALID_CREDENTIALS.getMessage()
                 : authException.getMessage();
 
