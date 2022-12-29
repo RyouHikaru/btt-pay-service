@@ -11,7 +11,10 @@ public enum ErrorMessage {
     // User Registration
     USERNAME_TAKEN          ("Username is already taken."),
     EMAIL_TAKEN                  ("Email is already in use."),
-    REGISTER_SUCCESSFUL  ("You have successfully registered.")
+    REGISTER_SUCCESSFUL  ("You have successfully registered."),
+
+    // Accounts
+    OPEN_SUCCESSFUL         ("You have successfully open an account."),
     ;
 
     private final String message;

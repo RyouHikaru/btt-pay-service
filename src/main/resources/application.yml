@@ -17,4 +17,8 @@ logging:
 # JWT Properties
 jwt:
   secret: QmlnIFRyYWRpbmcgVHJhZGVycyBQYXkgU2VydmljZSBTZWNyZXQgS2V5
-  expiration: 86400000
+  expiration: 28800000
+
+# App Properties
+app:
+  acct-no-format: 100000000

@@ -56,7 +56,6 @@ public class UserServiceImpl implements UserService {
         Optional<User> userOptional = userRepository.findById(id);
 
         return userOptional.map(userMapper::toDTO).orElse(null);
-
     }
 
     @Override
