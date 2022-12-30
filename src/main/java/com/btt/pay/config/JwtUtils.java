@@ -1,5 +1,6 @@
 package com.btt.pay.config;
 
+import com.btt.pay.domain.dto.UserDTO;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -50,16 +51,17 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return createToken(userDetails);
+    public String generateToken(UserDTO user) {
+        return createToken(user);
     }
 
-    private String createToken(UserDetails userDetails) {
+    private String createToken(UserDTO user) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(user.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSigningKey)))
+                .claim("userId", user.getId())
                 .compact();
     }
 

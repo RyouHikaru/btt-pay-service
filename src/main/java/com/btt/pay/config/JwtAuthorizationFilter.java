@@ -1,5 +1,6 @@
 package com.btt.pay.config;
 
+import com.btt.pay.domain.dto.UserDTO;
 import com.btt.pay.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,7 +37,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             jwtToken = authHeader.substring(7);
             username = jwtUtils.extractUsername(jwtToken);
 
-            UserDetails userDetails = userService.loadUserByUsername(username);
+            UserDTO userDetails = (UserDTO) userService.loadUserByUsername(username);
 
             if (jwtToken != null && jwtUtils.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authToken =
