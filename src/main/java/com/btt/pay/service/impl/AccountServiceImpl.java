@@ -95,12 +95,29 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public String generateAccountNumber(AccountType accountType) {
-        String number =  accountRepository.findMaxId(accountType).orElse(1L).toString();
+        log.debug("ACCOUNT SERVICE generateAccountNumber");
+        String generatedAcctNo =  "";
+        String number = "";
 
-        return (accountType.equals(AccountType.PAY) ? "P" : "S")
-                .concat(ACCT_NO_FORMAT)
-                .substring(0, ACCT_NO_FORMAT.length() - number.length())
-                .concat(number);
+        switch (accountType) {
+            case SAVINGS -> generatedAcctNo = "S";
+            default -> generatedAcctNo = "P";
+        }
+
+        boolean acctTypeExists = accountRepository.existsByAccountType(accountType);
+
+        if (acctTypeExists) {
+            String recentAcctNo = accountRepository.findRecentAccountNumber(accountType);
+            Long acctNo = Long.parseLong(recentAcctNo.substring(1))  + 1;
+            generatedAcctNo = generatedAcctNo + acctNo;
+        } else {
+            generatedAcctNo = generatedAcctNo.concat(ACCT_NO_FORMAT)
+                    .substring(0, ACCT_NO_FORMAT.length() - 1)
+                    .concat("1");
+        }
+
+
+        return generatedAcctNo;
     }
 
 }
