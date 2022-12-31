@@ -11,10 +11,12 @@ import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
-    @Query("SELECT MAX(account.id) from Account account WHERE account.accountType = :accountType")
-    Optional<Long> findMaxId(@Param("accountType") AccountType accountType);
+    Boolean existsByAccountType(AccountType accountType);
 
-    @Query("SELECT account FROM Account account WHERE account.user.id = :userId")
+    @Query("SELECT accountNumber from Account account WHERE account.accountType = :accountType ORDER BY accountNumber DESC LIMIT 1")
+    String findRecentAccountNumber(@Param("accountType") AccountType accountType);
+
+    @Query("SELECT account FROM Account account WHERE account.user.id = :userId ORDER BY account.accountNumber")
     Optional<List<Account>> findByUserId(@Param("userId") Long userId);
 
     @Query("SELECT account FROM Account account WHERE account.accountType = :accountType AND account.user.id = :userId")
