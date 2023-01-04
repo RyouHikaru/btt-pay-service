@@ -11,4 +11,7 @@ public interface TransactionMapper {
 
     TransactionDTO toDTO(Transaction entity);
 
+    default Transaction defaultBehavior() {
+        return new Transaction();
+    }
 }

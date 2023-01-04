@@ -9,6 +9,8 @@ public interface AuthService {
 
     JwtResponse authenticateUser(LoginRequest request);
 
+    MessageResponse logoutUser();
+
     MessageResponse registerUser(RegisterRequest request);
 
     boolean isUsernameUsed(String username);

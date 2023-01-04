@@ -26,10 +26,13 @@ public class JwtAuthorizationEntryPoint implements AuthenticationEntryPoint {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 
-        final String errMessage = authException.getMessage().contains("UserDetailsService")
-                || authException.getMessage().contains("Bad credentials")
-                ? ErrorMessage.INVALID_CREDENTIALS.getMessage()
-                : authException.getMessage();
+        String errMessage = authException.getMessage();
+
+        if (errMessage.contains("returned null") || errMessage.contains("Bad credentials")) {
+            errMessage = ErrorMessage.INVALID_CREDENTIALS.getMessage();
+        } else if (errMessage.contains("is locked")) {
+            errMessage = ErrorMessage.ACCOUNT_LOCKED.getMessage();
+        }
 
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);

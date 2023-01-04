@@ -59,10 +59,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO update() {
+    public UserDTO update(UserDTO userDTO) {
         log.debug("USER SERVICE update");
 
-        return null;
+        User user = userMapper.toEntity(userDTO);
+
+        return userMapper.toDTO(userRepository.save(user));
+    }
+
+    @Override
+    public void incrementLoginAttempts(String username) {
+        log.debug("USER SERVICE incrementLoginAttempt: {}", username);
+
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+
+            if (!user.isLocked()) {
+                UserDTO userDTO = userMapper.toDTO(user);
+                userDTO.setLoginAttempts(userDTO.getLoginAttempts() + 1);
+                userDTO.setLocked(userDTO.getLoginAttempts() > 3);
+
+                userRepository.save(userMapper.toEntity(userDTO));
+            }
+        }
     }
 
     @Override

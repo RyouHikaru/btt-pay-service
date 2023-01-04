@@ -26,6 +26,11 @@ public class AuthController {
                 .body(authService.registerUser(request));
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout() {
+        return ResponseEntity.ok().body(authService.logoutUser());
+    }
+
     @PostMapping("/register/validate-username")
     public ResponseEntity<Boolean> isUsernameUsed(@RequestParam String username) {
         return ResponseEntity.ok()
