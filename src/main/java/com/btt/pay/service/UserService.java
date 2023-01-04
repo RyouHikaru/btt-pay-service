@@ -9,7 +9,8 @@ public interface UserService extends UserDetailsService {
 
     MessageResponse create(RegisterRequest request);
     UserDTO retrieveById(Long id);
-    UserDTO update();
+    UserDTO update(UserDTO userDTO);
+    void incrementLoginAttempts(String username);
     String delete();
     boolean isUsernameUsed(String username);
     boolean isEmailUsed(String email);

@@ -11,4 +11,7 @@ public interface MetadataMapper {
 
     MetadataDTO toDTO(Metadata entity);
 
+    default Metadata defaultBehavior() {
+        return new Metadata();
+    }
 }

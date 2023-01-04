@@ -22,13 +22,13 @@ public class UserController {
                 .body(userDTO);
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUser() {
-        userService.update();
-
-        return ResponseEntity.ok()
-                .body(ErrorMessage.SUCCESSFUL.getMessage());
-    }
+//    @PutMapping
+//    public ResponseEntity<?> updateUser() {
+//        userService.update();
+//
+//        return ResponseEntity.ok()
+//                .body(ErrorMessage.SUCCESSFUL.getMessage());
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser() {

@@ -11,4 +11,7 @@ public interface AccountMapper {
 
     AccountDTO toDTO(Account entity);
 
+    default Account defaultBehavior() {
+        return new Account();
+    }
 }

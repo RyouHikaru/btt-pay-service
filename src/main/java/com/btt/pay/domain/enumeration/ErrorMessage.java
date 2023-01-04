@@ -7,10 +7,10 @@ public enum ErrorMessage {
 
     // User Login
     INVALID_CREDENTIALS    ("You have entered invalid credentials."),
+    LOGOUT_SUCCESSFUL    ("Logout successful."),
+    ACCOUNT_LOCKED         ("Your account is temporarily locked due to excessive login attempts."),
 
     // User Registration
-    USERNAME_TAKEN          ("Username is already taken."),
-    EMAIL_TAKEN                  ("Email is already in use."),
     REGISTER_SUCCESSFUL  ("You have successfully registered."),
 
     // Accounts

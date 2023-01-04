@@ -11,4 +11,7 @@ public interface UserMapper {
 
     UserDTO toDTO(User entity);
 
+    default User defaultBehavior() {
+        return new User();
+    }
 }

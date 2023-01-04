@@ -2,6 +2,7 @@ package com.btt.pay.service.impl;
 
 import com.btt.pay.config.JwtUtils;
 import com.btt.pay.domain.dto.UserDTO;
+import com.btt.pay.domain.enumeration.ErrorMessage;
 import com.btt.pay.payload.request.LoginRequest;
 import com.btt.pay.payload.request.RegisterRequest;
 import com.btt.pay.payload.response.JwtResponse;
@@ -33,6 +34,8 @@ public class AuthServiceImpl implements AuthService {
     public JwtResponse authenticateUser(LoginRequest request) {
         log.debug("AUTH SERVICE authenticateUser: {}", request);
 
+        userService.incrementLoginAttempts(request.getUsername());
+
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
@@ -40,15 +43,27 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         UserDTO userDTO = (UserDTO) authentication.getPrincipal();
+        userDTO.setLoggedIn(true);
+        userDTO.setLoginAttempts(0);
+        userDTO = userService.update(userDTO);
 
-        JwtResponse response = new JwtResponse(
+        return new JwtResponse(
                 jwtUtils.generateToken(userDTO),
                 BEARER,
                 userDTO.getId(),
                 userDTO.getUsername(),
                 userDTO.getEmail());
+    }
 
-        return response;
+    @Override
+    public MessageResponse logoutUser() {
+        log.debug("AUTH SERVICE logoutUser");
+
+        UserDTO userDTO = (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userDTO.setLoggedIn(false);
+        userService.update(userDTO);
+
+        return new MessageResponse(ErrorMessage.LOGOUT_SUCCESSFUL.getMessage());
     }
 
     @Override

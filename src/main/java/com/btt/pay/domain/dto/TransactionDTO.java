@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,6 +17,7 @@ public class TransactionDTO {
     private Long id;
     private String transactionNumber;
     private String details;
+    private BigDecimal amount;
     private TransactionType transactionType;
     private AccountDTO account;
     private MetadataDTO metadata;

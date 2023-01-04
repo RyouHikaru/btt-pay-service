@@ -70,10 +70,14 @@ public class SecurityConfig {
             .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedHandler))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/logout").permitAll()
+                .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated())
             .authenticationProvider(authenticationProvider())
-            .logout(logout -> logout.invalidateHttpSession(true))
+            .logout(logout -> logout
+                    .logoutUrl("http://localhost:3000/logout")
+                    .logoutSuccessUrl("http://localhost:3000")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true))
             .addFilterBefore(new JwtAuthorizationFilter(userService, utils), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

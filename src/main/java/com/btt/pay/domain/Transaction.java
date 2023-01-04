@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @Entity
@@ -16,6 +18,7 @@ public class Transaction {
     private Long id;
     private String transactionNumber;
     private String details;
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
