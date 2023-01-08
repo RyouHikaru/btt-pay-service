@@ -12,6 +12,9 @@ public interface AccountService {
 
     AccountDTO retrieve(CreateRetrieveAccountRequest request);
 
+    AccountDTO retrieveByAccountNumber(String accountNumber);
+
     List<AccountDTO> retrieveAllByUserId(Long userId);
 
+    AccountDTO update(AccountDTO accountDTO);
 }

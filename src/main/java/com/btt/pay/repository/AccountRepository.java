@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     Boolean existsByAccountType(AccountType accountType);
+    Optional<Account> findByAccountNumber(String accountNumber);
 
     @Query("SELECT accountNumber from Account account WHERE account.accountType = :accountType ORDER BY accountNumber DESC LIMIT 1")
     String findRecentAccountNumber(@Param("accountType") AccountType accountType);

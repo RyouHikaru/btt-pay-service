@@ -77,6 +77,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public AccountDTO retrieveByAccountNumber(String accountNumber) {
+        log.debug("ACCOUNT SERVICE retrieveByAccountNumber");
+
+        Optional<Account> accountOptional = accountRepository.findByAccountNumber(accountNumber);
+
+        return accountOptional.map(accountMapper::toDTO).orElse(null);
+    }
+
+    @Override
     public List<AccountDTO> retrieveAllByUserId(Long userId) {
         log.debug("ACCOUNT SERVICE retrieveAllByUserId");
 
@@ -94,10 +103,18 @@ public class AccountServiceImpl implements AccountService {
         return accountList;
     }
 
-    public String generateAccountNumber(AccountType accountType) {
+    @Override
+    public AccountDTO update(AccountDTO accountDTO) {
+        log.debug("ACCOUNT SERVICE update: {}", accountDTO.toString());
+
+        Account updatedAccount = accountMapper.toEntity(accountDTO);
+
+        return accountMapper.toDTO(accountRepository.save(updatedAccount));
+    }
+
+    private String generateAccountNumber(AccountType accountType) {
         log.debug("ACCOUNT SERVICE generateAccountNumber");
         String generatedAcctNo =  "";
-        String number = "";
 
         switch (accountType) {
             case SAVINGS -> generatedAcctNo = "S";
@@ -108,7 +125,7 @@ public class AccountServiceImpl implements AccountService {
 
         if (acctTypeExists) {
             String recentAcctNo = accountRepository.findRecentAccountNumber(accountType);
-            Long acctNo = Long.parseLong(recentAcctNo.substring(1))  + 1;
+            long acctNo = Long.parseLong(recentAcctNo.substring(1))  + 1;
             generatedAcctNo = generatedAcctNo + acctNo;
         } else {
             generatedAcctNo = generatedAcctNo.concat(ACCT_NO_FORMAT)

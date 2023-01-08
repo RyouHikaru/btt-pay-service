@@ -22,4 +22,16 @@ public class AccountDTO {
     private MetadataDTO metadata;
     private UserDTO user;
 
+    @Override
+    public String toString() {
+        return "AccountDTO{" +
+                "id=" + id +
+                ", accountNumber='" + accountNumber + '\'' +
+                ", accountType=" + accountType +
+                ", balance=" + balance +
+                ", isActive=" + isActive +
+                ", metadata=" + metadata +
+                ", user=" + user +
+                '}';
+    }
 }
