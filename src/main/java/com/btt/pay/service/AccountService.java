@@ -17,4 +17,7 @@ public interface AccountService {
     List<AccountDTO> retrieveAllByUserId(Long userId);
 
     AccountDTO update(AccountDTO accountDTO);
+
+    boolean isAccountExisting(String accountNumber);
+
 }

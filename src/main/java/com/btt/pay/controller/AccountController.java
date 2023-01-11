@@ -25,4 +25,10 @@ public class AccountController {
                 .body(accountService.retrieveAllByUserId(id));
     }
 
+    @PostMapping("/exists")
+    public ResponseEntity<?> isAccountExisting(@RequestParam String accountNumber) {
+        return ResponseEntity.ok()
+                .body(accountService.isAccountExisting(accountNumber));
+    }
+
 }

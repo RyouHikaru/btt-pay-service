@@ -91,7 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     private String generateTransactionNumber() {
-        log.debug("ACCOUNT SERVICE generateTransactionNumber");
+        log.debug("TRANSACTION SERVICE generateTransactionNumber");
         String generatedTransNo =  TRANS_NO_FORMAT;
 
         long count = transactionRepository.count();
