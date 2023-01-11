@@ -112,6 +112,13 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toDTO(accountRepository.save(updatedAccount));
     }
 
+    @Override
+    public boolean isAccountExisting(String accountNumber) {
+        log.debug("ACCOUNT SERVICE isAccountExisting: {}", accountNumber);
+
+        return accountRepository.existsByAccountNumber(accountNumber);
+    }
+
     private String generateAccountNumber(AccountType accountType) {
         log.debug("ACCOUNT SERVICE generateAccountNumber");
         String generatedAcctNo =  "";

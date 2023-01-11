@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    @Query("SELECT transaction FROM Transaction transaction WHERE transaction.account.accountNumber = :accountNumber")
+    @Query("SELECT transaction FROM Transaction transaction WHERE transaction.account.accountNumber = :accountNumber ORDER BY transaction.metadata.dateCreated DESC")
     Optional<List<Transaction>> findByAccountNumber(@Param("accountNumber") String accountNumber);
 
     @Query("SELECT MAX(transaction.transactionNumber) from Transaction transaction")
